@@ -1,0 +1,5 @@
+safe: true
+markdown: rdiscount
+pygments: true
+permalink: pretty
+exclude: [formoga.github.io.sublime-project, formoga.github.io.sublime-workspace, README.md, start-jekyll-server]

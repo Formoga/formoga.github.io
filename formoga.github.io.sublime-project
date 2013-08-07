@@ -1,0 +1,28 @@
+{
+    "folders":
+    [
+        {
+            "follow_symlinks": true,
+            "path": "~/Work/Formoga/formoga.github.io",
+            "name": "Formoga Tech Blog",
+            "file_exclude_patterns":
+            [
+                "*.sublime-workspace",
+                "Icon?"
+            ],
+            "folder_exclude_patterns":
+            [
+                "_site"
+            ]
+        }
+    ],
+
+    "settings":
+    {
+        "tab_size": 4,
+        "translate_tabs_to_spaces": true,
+
+        // Use specific color scheme to remind this is the project of Tech Blog
+        "color_scheme": "Packages/Theme - Phoenix/Color Scheme/Phoenix Dark Orange - Eighties.tmTheme"
+    }
+}

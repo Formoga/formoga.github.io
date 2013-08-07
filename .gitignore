@@ -1,0 +1,8 @@
+# ignore auto generated folder for Mac OS
+.DS_Store
+
+# ignore cause jekyll generate content into the folder
+_site/
+
+# ignore user specific file for Sublime Text
+*.sublime-workspace
