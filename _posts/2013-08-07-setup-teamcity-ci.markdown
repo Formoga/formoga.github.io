@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Setup TeamCity CI
-permalink: SetupTeamcityCI
+permalink: SetupTeamCityCI
 ---
 
 # Overview #
