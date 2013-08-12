@@ -4,7 +4,9 @@ title: Setup TeamCity CI
 permalink: SetupTeamCityCI
 ---
 
-# Overview #
+# Setup TeamCity CI #
+
+## 基本介紹 ##
 
 團隊中的開發除了Unity的專案外，會開始陸續展開其它的專案，而這些軟體專案，若是能夠用自動化的方式去做建置，則可大幅度的提高建置過程中的品質。因此選用Continuous Integration Sever(CIS)勢必是不可缺少的。考量到團隊內的資源運用，會優先選擇Open Source或是在一定量下的使用是免費或是小額的方案。而符合這樣考量的，則有[Jenkins][100010](Open Source)、[TeamCity][100020](一定使用量下免費方案)或是[Bamboo][100030](小額付費方案)。在Jenkins的主要撰寫人加入[CloudBees][100040]後，總覺得Jenkins的Open Source版已沒有太大的改進，而Bamboo的小額使用下，限制異常的多。所以最後決定採用TeamCity，不但版本的更新速度快、介面乾淨，最主要的是目前的License，非常替小型團隊著想。這也是商用版中，最符合目前團隊開發需求的CIS。
 
@@ -16,7 +18,11 @@ permalink: SetupTeamCityCI
 
 VM的選擇，在Windows的環境下，主要分為二套，Open Source陣營的[Virtual Box][100050]和商用但有免費使用方案的[VMWare][100060]。就這二個不同的VM來說，哪一個都可行，在官方的功能上，也都沒有特別提到支援Windows 8.1 Preview，所以隨便選一個可以運作的情況下，選到了Virtual Box，而運行上沒有問題，就最後選擇了用Virtual Box當在VM軟體，而Linux的Distro就選擇了目前商業支持度最高，每年也有二次重大改版的Ubuntu，不需要多餘的UI干擾，選擇了[Server 64 bit版本][100070]。
 
+## 進行安裝 ##
+
 一如往常的在Virtual Box裡照著安裝精靈一步一步的往下走，記得將Ubuntu的ISO檔放到Virtual CD/DVD裝置上，關掉Audio，而網路的設定先用預設的NAT。放個2G到4G的記憶體，而Hard Disk的容量，在本機隨便都是1TB起跳的情況下，直接配置100GB都可。而進入到Ubuntu的安裝時，全部都走預設的即可。完成Ubuntu的安裝後，接下來就正式的進入了設定TeamCity Server的階段。
+
+![VirtualBox with Ubuntu Server VM][200100]
 
 基於安全考量(雖然不一定有這樣的必要)，會額外創建TeamCity專用的使用者帳號，參考[這篇文章][100100]後可以輕易的完成，是不是系統帳號倒無所謂，以目前團隊的配置規模，考量到太多的安全性細節並不一定是最好的選擇。且TeamCity的官方文件裡，沒有強烈要求TeamCity是否要以管理者權限的使用者在Linux中啓用，所以額外創建的使用者是只有一般的權限，在安全性的考量下，還算是安全的。但很多開發相關的軟體設定、拿取，則需要透過原先的管理者才能進行。
 
@@ -68,6 +74,8 @@ VM的選擇，在Windows的環境下，主要分為二套，Open Source陣營的
 
 由其它電腦網頁連線進此Server，以Web UI行式進行操控，因為是Linux Server，所以會開在8111預設的Port上，因此連線時要額外放入Port的資訊(192.168.x.x:8111)。連線展開時，會因為沒有TeamCity Data Directory的情況下，額外產生`.BuildServer`這個目錄資料。而一但此目錄產生後，才能夠進行更換External Database(像是MySql、Postgresql等)的動作。
 
+![TeamCity First Start][200400]
+
 如果先前在裝Ubuntu時，沒有選擇額外安裝LAMP的服務，則必需切回到有管理權限的帳號進行安裝MySql的動作
 
     sudo apt-get install mysql-server
@@ -95,6 +103,10 @@ VM的選擇，在Windows的環境下，主要分為二套，Open Source陣營的
 
 此處的host會放入localhost，而database name、user以及password，都按照之前在mysql console裡打進去的的放入。完成後，換到`TeamCity/bin`目錄下開始server。但在Web UI操作下，會看到沒有Database的錯誤顯示，並要求要輸入TeamServer管理者才看得到的資訊，才能繼續往下動作。而此資訊，則是放在`TeamCity/logs`目錄下的`teamcity-server.log`裡，再當下最後面那一行中會出現一串超長的數字要輸入，而輸入後才能正確進行下去。一切正常後，會被要求產生一TeamCity管理權限的帳號，待產生後，則會在Browser看到一個沒有Build Agent，沒有專案的初始化TeamCity內容頁面。
 
+!["Content of teamcity-server.log"][200500]
+
+!["TeamCity Database Creation"][200600]
+
 [100010]: http://jenkins-ci.org "Jenkins"
 [100020]: http://www.jetbrains.com/teamcity/ "TeamCity"
 [100030]: https://www.atlassian.com/software/bamboo "Bamboo"
@@ -106,3 +118,8 @@ VM的選擇，在Windows的環境下，主要分為二套，Open Source陣營的
 [100200]: http://blog.avirtualhome.com/git-ppa-for-ubuntu/ "Git PPA for Ubuntu"
 [100300]: http://confluence.jetbrains.com/display/TCD8/Installing+and+Configuring+the+TeamCity+Server "Installing and Configuring the TeamCity Server"
 [100400]: http://confluence.jetbrains.com/display/TCD8/Setting+up+an+External+Database "Setting up an External Database"
+
+[200100]: https://lh4.googleusercontent.com/--bulZKLDC3s/UghoOqISA1I/AAAAAAAAFK8/304vyIEo8Oc/w756-h642-no/VirtualBox+with+VM.jpg "Specific VM Overview"
+[200400]: https://lh6.googleusercontent.com/-_vMcJvzIepQ/UghoBdMZIVI/AAAAAAAAFJg/56rTFSicw6U/w899-h642-no/TeamCity+First+Start.jpg "TeamCity First Start"
+[200500]: https://lh3.googleusercontent.com/-c1pDsYOIJp4/Ughn_FtLjHI/AAAAAAAAFJM/na-0t4NJLqQ/w776-h642-no/TeamCity+Authentication+Token.jpg "TeamCity Authentication Token"
+[200600]: https://lh6.googleusercontent.com/-0r6-_N_-8vE/UghoAIEStKI/AAAAAAAAFJU/HsLwqIxFlKk/w899-h642-no/TeamCity+Create+from+Empty+Database.jpg "TeamCity Database Creation"
